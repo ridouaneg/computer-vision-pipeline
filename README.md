@@ -28,17 +28,10 @@ Source : https://www.learnopencv.com/object-tracking-using-opencv-cpp-python/
 
 
 Requirements :
-numpy
-cv2
-sys
-time
-tensorflow
-keras
-mxnet
-gluoncv
-dlib
-mtcnn
-os
-math
-multiprocessing
-itertools
+basics : numpy, cv2
+human detection : mxnet, gluoncv
+face detection : mxnet
+mtcnn face detection : mtcnn
+pose estimation : mxnet, gluoncv
+facial landmarks : dlib
+action recognition : mxnet, gluoncv

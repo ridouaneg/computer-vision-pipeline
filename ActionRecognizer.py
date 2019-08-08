@@ -27,10 +27,6 @@ class ActionRecognizer:
         'SoccerPenalty', 'StillRings', 'SumoWrestling', 'Surfing', 'Swing', 'TableTennisShot', 'TaiChi', 'TennisSwing', 'ThrowDiscus', \
         'TrampolineJumping', 'Typing', 'UnevenBars', 'VolleyballSpiking', 'WalkingWithDog', 'WallPushups', 'WritingOnBoard', 'YoYo']
 
-    def set_model(self, model_name):
-        from gluoncv.model_zoo import get_model
-        self.model = get_model('vgg16_ucf101', nclass=101, ctx=mx.gpu(0))
-
     def get_result(self):
         return self.result
 
@@ -58,6 +54,10 @@ class ActionRecognizer:
             print('action classifier preprocessing time (ms):', (pre_process_runtime_end - pre_process_runtime_start) * 1e3)
             print('action classifier prediction time (ms):', (model_predict_runtime_end - model_predict_runtime_start) * 1e3)
             print('action classifier post-processing time (ms):', (post_process_runtime_end - post_process_runtime_start) * 1e3)
+
+    def set_model(self, model_name):
+        from gluoncv.model_zoo import get_model
+        self.model = get_model('vgg16_ucf101', nclass=101, ctx=mx.gpu(0))
 
     def pre_process(self, image):
         self.image_size = np.shape(image)

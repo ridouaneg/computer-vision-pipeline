@@ -79,7 +79,7 @@ class FacialEmotionClassifier:
     def set_model(self, model_name):
         if model_name == 'CNN':
             from keras.models import load_model
-            emotion_model_path = './models/emotion_model.hdf5'
+            emotion_model_path = './models/emotion_classification/cnn_mxnet/emotion_model.hdf5'
             self.model = load_model(emotion_model_path)
 
     def pre_process(self, image, face_bounding_boxes):
@@ -134,10 +134,10 @@ class FacialEmotionClassifier:
         return emotion_texts, emotion_probabilities
 
     def visualize(self, image, emotions=None, confidences=None):
-        
-        if emotions = None:
+
+        if emotions is None:
             emotions, confidences = self.result.convert_to_list()
         else:
             emotions, confidences = emotions, confidences
 
-         cv2.putText(image, emotions[0], (5, 75), cv2.FONT_HERSHEY_SIMPLEX, 1., (0, 0, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, emotions[0], (5, 75), cv2.FONT_HERSHEY_SIMPLEX, 1., (0, 0, 255), 1, cv2.LINE_AA)

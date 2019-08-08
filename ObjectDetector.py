@@ -185,6 +185,7 @@ class HumanDetector(ObjectDetector):
     """
 
     def __init__(self, model_name='yolo3_darknet53_coco', threshold=0.25, input_size=(512, 1024, 3), do_timing=False):
+
         super().__init__(threshold, input_size, do_timing)
         self.set_model(model_name)
 
@@ -344,8 +345,8 @@ class FaceDetector(ObjectDetector):
         self.set_model(model_name)
 
     def set_model(self, model_name):
-        from mtcnn_detector import MtcnnDetector
-        self.model = MtcnnDetector(model_folder='./models/mtcnn_weights')
+        from models.face_detection.mtcnn_mxnet.mtcnn_detector import MtcnnDetector
+        self.model = MtcnnDetector(model_folder='./models/face_detection/mtcnn_mxnet/weights')
 
     def pre_process(self, image):
         self.image_size = np.shape(image)

@@ -5,10 +5,6 @@ import time
 from Util import Util
 
 import dlib
-# install mxnet with gpu support and gluoncv with :
-# pip install --upgrade mxnet-cu100 gluoncv
-import mxnet as mx
-from gluoncv.model_zoo import get_model
 
 class FacialLandmarks:
 
@@ -87,12 +83,12 @@ class FacialLandmarksEstimator:
 
         # model prediction
         model_predict_runtime_start = time.time()
-        model_output = self.model_predict(model_input)
+        model_output = self.model_predict(model_input, image)
         model_predict_runtime_end = time.time()
 
         # postprocess
         post_process_runtime_start = time.time()
-        poses, confidences = self.post_process(model_output)
+        facial_landmarks, confidences = self.post_process(model_output)
         post_process_runtime_end = time.time()
 
         self.result = FacialLandmarksEstimatorResult([FacialLandmarks(landmarks, confidence) for landmarks, confidence in zip(facial_landmarks, confidences)])
@@ -102,18 +98,18 @@ class FacialLandmarksEstimator:
             print('facial landmarks estimator prediction time (ms):', (model_predict_runtime_end - model_predict_runtime_start) * 1e3)
             print('facial landmarks estimator post-processing time (ms):', (post_process_runtime_end - post_process_runtime_start) * 1e3)
 
-        return poses, confidences
+        return facial_landmarks, confidences
 
     def set_model(self, model_name):
         from dlib import shape_predictor
-        self.model = shape_predictor('./models/shape_predictor_68_face_landmarks.dat')
+        self.model = shape_predictor('./models/facial_landmarks/dlib/shape_predictor_68_face_landmarks.dat')
 
     def pre_process(self, image, bounding_boxes, confidences):
         self.image_size = np.shape(image)
         model_input = [dlib.rectangle(bbox[0], bbox[1], bbox[2], bbox[3]) for bbox in bounding_boxes]
         return model_input
 
-    def predict(self, model_input):
+    def model_predict(self, model_input, image):
         if model_input is not None:
             model_output = []
             for d in model_input:
